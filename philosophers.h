@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:58:43 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/09/29 16:31:17 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/02 13:19:53 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_info
 
 typedef struct	s_table
 {
+	int	spot;
 	struct s_table	*left;
 	struct s_table	*right;
 	int		content_id;
@@ -73,10 +74,7 @@ typedef struct s_data
 {
 	t_table *table;
 	pthread_t *threads;
-	int	thread_id;
 	t_info	*info;
-	pthread_mutex_t mutex;
-	int	counter;
 }				t_data;
 
 //creating simple mutex
@@ -86,5 +84,15 @@ typedef struct	s_data_mutex
 	int	counter;
 	pthread_mutex_t mutex;
 }				t_data_mutex;
+
+//create_table.c
 t_table	*create_table(t_data data);
+
+//init.c
+t_data	*data_init(int argc, char *argv[], t_data *data);
+t_info *info_init(int argc, char *argv[]);
+
+//printing.c
+void	print_data(t_data *data);
+void	print_table(t_table *table, t_data data);
 #endif

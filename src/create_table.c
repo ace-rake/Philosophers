@@ -6,11 +6,11 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:24:28 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/09/29 16:31:41 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/02 13:14:11 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../philosophers.h"
 
 t_philo	*create_philosopher(t_info *info)
 {
@@ -48,7 +48,7 @@ t_table	*table_con(t_info *info, int id)
 {
 	t_table *table;
 
-	table = (t_table *)malloc(sizeof(table));
+	table = (t_table *)malloc(sizeof(t_table));
 	if (!table)
 		return (NULL);
 	table->content_id = id;
@@ -72,6 +72,7 @@ t_table	*create_table(t_data data)
 
 	iter = 0;
 	table = table_con(data.info, iter % 2);
+	table->spot = 0;
 	if (table == NULL)
 		return (NULL);
 	start = table;
@@ -84,6 +85,7 @@ t_table	*create_table(t_data data)
 		}
 		table->right->left = table;
 		table = table->right;
+		table->spot = iter;
 	}
 	start->left = table;
 	table->right = start;
