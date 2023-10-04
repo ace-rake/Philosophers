@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:17:25 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/02 13:18:08 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/04 11:55:00 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_data	*data_init(int argc, char *argv[], t_data *data)
 {
 	data->info = info_init(argc, argv);
 	data->threads = (pthread_t *)malloc((sizeof(pthread_t) * data->info->philos));
+	data->end = 0;
 	return (data);
 }
 

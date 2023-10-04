@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:58:43 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/02 13:19:53 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:26:07 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_time
 	long sec;
 	long usec;
 }				t_time;
-int	get_time(t_time *time);
+
 
 typedef struct s_info
 {
@@ -58,7 +58,7 @@ typedef struct	s_table
 typedef struct	s_philosopher
 {
 	int	id;
-	t_time *last_update;
+	t_time last_eat;
 	t_info	*info;
 	int	state;
 	pthread_t thread;
@@ -70,8 +70,17 @@ typedef struct s_fork
 	pthread_mutex_t mutex;
 }				t_fork;
 
+typedef struct s_lock
+{
+	pthread_mutex_t mutex;	
+}	t_lock;
+
 typedef struct s_data
 {
+	int	*start;
+	int	*end;
+	t_time start_time;
+	t_lock lock;
 	t_table *table;
 	pthread_t *threads;
 	t_info	*info;
@@ -95,4 +104,9 @@ t_info *info_init(int argc, char *argv[]);
 //printing.c
 void	print_data(t_data *data);
 void	print_table(t_table *table, t_data data);
+
+//gettime.c
+int	get_time(t_time *time);
+long	time_diff(t_time start_time, t_time now);
+int	wait(int time_to_wait, t_data data, t_table *table);
 #endif

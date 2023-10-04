@@ -3,16 +3,28 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include "philosophers.h"
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	struct timeval *time = NULL;
-	int 	result;
-
-	time = (struct timeval *)malloc(sizeof(struct timeval));	
-	for (int i = 0; 1; i++)
+	t_time start;
+	t_time now;
+	long diff = 0;
+	start.usec = 0;
+	start.sec = 0;
+	now.usec = 0;
+	now.sec = 0;
+	t_data data;
+	data_init(argc, argv, &data);
+	data.table = create_table(data);
+	get_time(&data.start_time);
+	data.end = (int *)malloc(sizeof(int));
+	*data.end = 0;
+	for (int i = 0; diff < 10000; i++)
 	{
-		result = gettimeofday(time, NULL);
-		printf("time sec := [%ld] time usec := [%ld]\n",time->tv_sec, time->tv_usec);
+		wait(1000, data, data.table);
+		get_time(&now);
+		diff = time_diff(data.start_time, now);
+		printf("Diff := [%ld]\n", diff);	
 	}
 }
