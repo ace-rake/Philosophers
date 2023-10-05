@@ -16,6 +16,7 @@ int	main(int argc, char *argv[])
 	now.sec = 0;
 	t_data data;
 	data_init(argc, argv, &data);
+	data.info->time_die = 10000000;
 	data.table = create_table(data);
 	get_time(&data.start_time);
 	data.end = (int *)malloc(sizeof(int));
