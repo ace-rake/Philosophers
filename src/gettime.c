@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 10:29:17 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/05 15:36:38 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:13:12 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ int	wait(int time_to_wait, t_data data, t_table *table)
 
 	current_diff = 0;
 	get_time(&start_time);
-	while (current_diff < time_to_wait && *(data.end) == 0)
+	while (current_diff <= time_to_wait && *(data.end) == 0)
 	{
 		get_time(&current_time);
 		current_diff = (int)time_diff(start_time, current_time);
 		if (check_if_dead(current_time, data, table) == 1)
 			*(data.end) = 1;
-		usleep(10);
 	}
 	if (*data.end == 0)
 		return (0);
