@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:58:43 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/04 13:26:07 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:30:27 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct	s_table
 
 typedef struct	s_philosopher
 {
+	int	times_eaten;
 	int	id;
 	t_time last_eat;
 	t_info	*info;

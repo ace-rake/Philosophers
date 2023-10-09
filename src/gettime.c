@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 10:29:17 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/05 16:13:12 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:49:26 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ long	time_diff(t_time start_time, t_time now)
 	long	usec_diff;
 	long	sec_diff;
 	long	result;
+	pthread_mutex_t mutex;
 
+	pthread_mutex_lock(&mutex);
 	sec_diff = now.sec - start_time.sec;
 	usec_diff = now.usec - start_time.usec;
-	result = sec_diff * 1000 + usec_diff / 1000;
-
+	result =sec_diff * 1000 + usec_diff / 1000;
+	pthread_mutex_unlock(&mutex);
 	return (result);
 }
 

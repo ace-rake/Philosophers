@@ -26,17 +26,22 @@ int	take_forks(t_table *table, t_data *data, t_time *time, int thread_id)
 
 int	cycle(t_table *table, t_data *data, t_time *time, int thread_id)
 {
-	while (*(data->end) == 0)//make this so it checks if this philo has eaten enough times and also for end
+	while (*(data->end) == 0 && ((t_philo *)table->content)->times_eaten < data->info->max_eat)
 	{
 		if (take_forks(table, data, time, thread_id))
 			break;
 		get_time(time);
 		printf("%ld %d is eating\n",time_diff(data->start_time, *time), thread_id);
+		((t_philo *)(table->content))->times_eaten++;
 		get_time(&((t_philo *)table->content)->last_eat);
 		if (wait(data->info->time_eat, *data, table) == 1)
 			break;
 		pthread_mutex_unlock(&(((t_fork *)(table->left->content))->mutex));
+		get_time(time);
+		printf("%ld %d has released a fork\n",time_diff(data->start_time, *time), thread_id);
 		pthread_mutex_unlock(&(((t_fork *)(table->right->content))->mutex));
+		get_time(time);
+		printf("%ld %d has released a fork\n",time_diff(data->start_time, *time), thread_id);
 		get_time(time);
 		printf("%ld %d is sleeping\n", time_diff(data->start_time, *time), thread_id);
 		if (wait(data->info->time_sleep, *data, table) == 1)
@@ -58,7 +63,7 @@ void	*thread_start(void *arg)
 	thread_id = ((t_philo *)(data->table->content))->id;
 	wait_lock(*data);
 	if (thread_id % 2 == 0)
-		usleep(data->info->time_eat);
+		usleep(data->info->time_eat / 2);
 	cycle(table, data, &time, thread_id);
 	pthread_mutex_unlock(&(((t_fork *)(table->left->content))->mutex));
 	pthread_mutex_unlock(&(((t_fork *)(table->right->content))->mutex));
@@ -105,10 +110,10 @@ int main(int argc, char *argv[])
 	t_data data;
 
 	data_init(argc, argv, &data);
-	print_data(&data);
+//	print_data(&data);
 	t_table *table = create_table(data);	
 	data.table = table;
-	print_table(table, data);
+//	print_table(table, data);
 	bt(data);
     return 0;
 }

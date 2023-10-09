@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:24:28 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/04 13:30:13 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:30:41 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_philo	*create_philosopher(t_info *info)
 	philo->id = id++;
 	philo->info = info;
 	philo->state = PRE_START;
+	philo->times_eaten = 0;
 	return (philo);
 }
 
