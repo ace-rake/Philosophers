@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:58:43 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 09:35:47 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:28:54 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int					wait_lock(t_data data);
 //checker.c
 void				*checker_loop(void *arg);
 
-//philo_behaviour.c
+//philo_behaviour.c //its almost everything that a philosophers does
 void				*thread_start(void *arg);
 
 //create_table.c
@@ -101,11 +101,6 @@ t_table				*create_table(t_data data);
 
 //init.c
 t_data				*data_init(int argc, char *argv[], t_data *data);
-t_info				*info_init(int argc, char *argv[]);
-
-//printing.c
-void				print_data(t_data *data);
-void				print_table(t_table *table, t_data data);
 
 //gettime.c
 int					get_time(t_time *time);
@@ -120,4 +115,7 @@ int					ft_atoi(const char *nptr);
 
 //printing.c
 void				ft_print_status(int philo_num, t_data *data, int msg);
+//void				print_data(t_data *data);
+//void				print_table(t_table *table, t_data data);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:34:38 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 10:04:22 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:26:51 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	cycle(t_table *table, t_data *data, int thread_id)
 	while (*(data->end) == 0
 		&& ((t_philo *)table->content)->times_eaten < data->info->max_eat)
 	{
-		if (take_forks(table, data,thread_id))
+		if (take_forks(table, data, thread_id))
 			break ;
 		((t_philo *)(table->content))->times_eaten++;
 		get_time(&((t_philo *)table->content)->last_eat);

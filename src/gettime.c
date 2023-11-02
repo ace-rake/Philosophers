@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 10:29:17 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/31 16:18:54 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:26:25 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ int	check_if_dead(t_data data, t_table *spot)
 
 	philo = (t_philo *)spot->content;
 	get_time(&current_time);
-/*	printf("\nchecking : [%d]\n", philo->id);
-	printf("amount check := [%d] : [%d]\n", philo->times_eaten, data.info->max_eat);
-	printf("last eat := [%zu] , [%zu]\n", philo->last_eat.sec, philo->last_eat.usec);
-	printf("time check := [%zu] : [%d]\n\n", time_diff(philo->last_eat, current_time), data.info->time_die);
-*/	if (philo->times_eaten < data.info->max_eat)
+	if (philo->times_eaten < data.info->max_eat)
 	{
 		if (time_diff(philo->last_eat, current_time) > data.info->time_die)
 		{

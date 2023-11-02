@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 10:54:21 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 11:18:09 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:26:07 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	philosophers(t_data data)
 	pthread_create(data.checker, NULL, checker_loop, &data);
 	get_time(&data.start_time);
 	*data.start = 1;
-	while(*data.end != 1)
-		usleep(1);
 	pthread_join(*data.checker, NULL);
 	i = -1;
 	while (++i < data.info->philos)
