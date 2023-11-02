@@ -4,7 +4,7 @@ HEADERS:= philosophers.h
 
 ERRFLAGS:= -Wall -Werror -Wextra
 FLAGS:= -g -O0
-SRCS:= src/printing.c src/gettime.c src/exit_handler.c src/philo_behaviour.c src/init.c src/checker.c src/cleanup.c src/create_table.c src/ft_atoi.c 
+SRCS:= src/printing.c src/gettime.c src/exit_handler.c src/philo_behaviour.c src/init.c src/checker.c src/cleanup.c src/create_table.c src/ft_atoi.c src/ft_isdigit.c 
 
 MAIN:= main.c
 

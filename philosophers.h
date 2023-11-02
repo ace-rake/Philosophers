@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:58:43 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 13:28:54 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:52:52 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ int					cleanup(t_data *data);
 
 //ft_atoi.c
 int					ft_atoi(const char *nptr);
+
+//ft_isdigit.c
+int					ft_isdigit_str(char *str);
 
 //printing.c
 void				ft_print_status(int philo_num, t_data *data, int msg);
