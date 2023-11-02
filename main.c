@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 10:54:21 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 09:42:13 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:18:09 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,16 @@ void	philosophers(t_data data)
 	t_philo	*philo;
 
 	i = -1;
-	printf("philos : [%d]\n", data.info->philos);
 	while (++i < data.info->philos)
 	{
 		philo = data.table->content;
-		printf("creating thread : [%d]\n", philo->id);
 		if (pthread_create(philo->thread, NULL, thread_start, &data) != 0)
 			exit_handler(&data);
 		usleep(5000);
 		data.table = data.table->right->right;
 	}
 	pthread_create(data.checker, NULL, checker_loop, &data);
-//	sleep(1);
 	get_time(&data.start_time);
-	printf("data start = 1\n");
 	*data.start = 1;
 	while(*data.end != 1)
 		usleep(1);

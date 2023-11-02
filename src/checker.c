@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:36:03 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 09:46:47 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:14:04 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ void	*checker_loop(void *arg)
 	while (*data->end != 1)
 	{
 		if (check_if_dead(*data, table))
-		{
-			printf("philo [%d] ded\n", ((t_philo *)table->content)->id);
 			*data->end = 1;
-		}
 		usleep(1000);
 		if (*data->info->nu_of_philo_done >= data->info->philos)
 			*data->end = 1;
