@@ -1,10 +1,11 @@
-NAME := Philosophers
+NAME := philosophers
 
 HEADERS:= philosophers.h
 
 ERRFLAGS:= -Wall -Werror -Wextra
-FLAGS:= -g -O0	
-SRCS:= $(wildcard src/*.c)
+FLAGS:= -g -O0
+SRCS:= src/printing.c src/gettime.c src/exit_handler.c src/philo_behaviour.c src/init.c src/checker.c src/cleanup.c src/create_table.c src/ft_atoi.c 
+
 MAIN:= main.c
 
 OBJDIR:= obj
@@ -15,29 +16,21 @@ all: $(NAME)
 
 ALLFLAGS:= $(ERRFLAGS) $(FLAGS)
 
-$(NAME): $(SRCS_OBJS) $(MAIN_OBJ) $(HEADERS)
+$(NAME): $(SRCS_OBJS) $(MAIN_OBJ) $(LIBFB_OBJS)  $(HEADERS)
 	@echo "compiling $@"
-	@make -C src/libft
-	@cc $(SRCS_OBJS) $(MAIN_OBJ) -Lsrc/libft -lft -pthread -o $@
-
-bt: $(SRCS_OBJS) $(HEADERS)
-	@echo "compiling $@"
-	@make -C src/libft
-	@cc $(SRCS_OBJS) -g test.c -Lsrc/libft -lft -o test
-
-
+	@cc $(ALLFLAGS) $(SRCS_OBJS) $(MAIN_OBJ) -pthread -o $@
 
 $(OBJDIR)/%.o: %.c $(HEADERS)
 	@mkdir -p $(@D)
 	@echo "creating $@"
-	@gcc -c $(FLAGS) $< -o $@
+	@gcc -c $(ALLFLAGS) $< -o $@
 
 clean:
-	@echo "cleaning libft"
-	@make clean -C src/libft
 	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -rf $(NAME)
 
 re:fclean all
+
+.PHONY:all clean fclean re

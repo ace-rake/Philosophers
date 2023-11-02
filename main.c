@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/24 10:54:21 by vdenisse          #+#    #+#             */
+/*   Updated: 2023/11/02 09:42:13 by vdenisse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 int	wait_lock(t_data data)
@@ -7,113 +19,94 @@ int	wait_lock(t_data data)
 	return (0);
 }
 
-int	take_forks(t_table *table, t_data *data, t_time *time, int thread_id)
+void	philosophers(t_data data)
 {
-	if (thread_id % 2 == 0)
-		pthread_mutex_lock(&(((t_fork *)(table->left->content))->mutex));
-	else
-		pthread_mutex_lock(&(((t_fork *)(table->right->content))->mutex));
-	get_time(time);
-	printf("%ld %d has taken a fork\n", time_diff(data->start_time, *time), thread_id);
-	if (thread_id %2 == 0)
-		pthread_mutex_lock(&(((t_fork *)(table->right->content))->mutex));
-	else
-		pthread_mutex_lock(&(((t_fork *)(table->left->content))->mutex));
-	get_time(time);
-	printf("%ld %d has taken a fork\n", time_diff(data->start_time, *time), thread_id);
-	return (0);	
+	int		i;
+	t_philo	*philo;
+
+	i = -1;
+	printf("philos : [%d]\n", data.info->philos);
+	while (++i < data.info->philos)
+	{
+		philo = data.table->content;
+		printf("creating thread : [%d]\n", philo->id);
+		if (pthread_create(philo->thread, NULL, thread_start, &data) != 0)
+			exit_handler(&data);
+		usleep(5000);
+		data.table = data.table->right->right;
+	}
+	pthread_create(data.checker, NULL, checker_loop, &data);
+//	sleep(1);
+	get_time(&data.start_time);
+	printf("data start = 1\n");
+	*data.start = 1;
+	while(*data.end != 1)
+		usleep(1);
+	pthread_join(*data.checker, NULL);
+	i = -1;
+	while (++i < data.info->philos)
+	{
+		philo = data.table->content;
+		if (pthread_detach(*philo->thread) != 0)
+			exit_handler(&data);
+		data.table = data.table->right->right;
+	}
 }
 
-int	cycle(t_table *table, t_data *data, t_time *time, int thread_id)
+int	main(int argc, char *argv[])
 {
-	while (*(data->end) == 0 && ((t_philo *)table->content)->times_eaten < data->info->max_eat)
-	{
-		if (take_forks(table, data, time, thread_id))
-			break;
-		get_time(time);
-		printf("%ld %d is eating\n",time_diff(data->start_time, *time), thread_id);
-		((t_philo *)(table->content))->times_eaten++;
-		get_time(&((t_philo *)table->content)->last_eat);
-		if (wait(data->info->time_eat, *data, table) == 1)
-			break;
-		pthread_mutex_unlock(&(((t_fork *)(table->left->content))->mutex));
-		get_time(time);
-		printf("%ld %d has released a fork\n",time_diff(data->start_time, *time), thread_id);
-		pthread_mutex_unlock(&(((t_fork *)(table->right->content))->mutex));
-		get_time(time);
-		printf("%ld %d has released a fork\n",time_diff(data->start_time, *time), thread_id);
-		get_time(time);
-		printf("%ld %d is sleeping\n", time_diff(data->start_time, *time), thread_id);
-		if (wait(data->info->time_sleep, *data, table) == 1)
-			break;
-		get_time(time);
-	}
+	t_data	data;
+	t_table	*table;
+
+	data_init(argc, argv, &data);
+	table = create_table(data);
+	data.table = table;
+	philosophers(data);
+	cleanup(&data);
 	return (0);
 }
 
-void	*thread_start(void *arg)
+/*
+void	*threads(void *arg)
 {
-	t_data *data;
-	t_table *table;
-	t_time time;
-	int thread_id;
-
-	data = (t_data *)arg;
-	table = data->table;
-	thread_id = ((t_philo *)(data->table->content))->id;
-	wait_lock(*data);
-	if (thread_id % 2 == 0)
-		usleep(data->info->time_eat / 2);
-	cycle(table, data, &time, thread_id);
-	pthread_mutex_unlock(&(((t_fork *)(table->left->content))->mutex));
-	pthread_mutex_unlock(&(((t_fork *)(table->right->content))->mutex));
+	printf("thread_created\n");
+	pthread_mutex_t *mutex  = ((pthread_mutex_t *)arg);
+	pthread_mutex_unlock(mutex);
+	printf("after lock\n");
+	while (1)
+		usleep(1);
 	return (NULL);
 }
 
-void	bt(t_data data)
+void	*thread(void *arg)
 {
-	t_philo *philo;
-
-	pthread_mutex_init(&data.lock.mutex, NULL);
-	pthread_mutex_lock(&data.lock.mutex);
-
-	data.end = (int *)malloc(sizeof(int) * 1);
-	*data.end = 0;
-	data.start =  (int *)malloc(sizeof(int) * 1);
-	*data.start = 0;
-	for (int i = 0; i < data.info->philos; i++)//create all threads
-	{
-		philo = data.table->content;
-		if (pthread_create(&(philo->thread), NULL, thread_start, &data) != 0)
-		{
-			//error handling
-		}
-		data.table = data.table->right->right;
-		usleep(100000);
-	}
-	get_time(&data.start_time);
-	*data.start = 1;
-	pthread_mutex_unlock(&data.lock.mutex);
-	for (int i = 0; i < data.info->philos; i++)//wait for all pthreads to finnish
-	{
-		philo = data.table->content;
-		if (pthread_join(philo->thread, NULL) != 0)
-		{
-			//error handling
-		}
-		printf("Philo [%d] has joined\n", philo->id);
-	}
+	printf("thread_created\n");
+	pthread_mutex_t *mutex  = ((pthread_mutex_t *)arg);
+	pthread_mutex_lock(mutex);
+	printf("after lock\n");
+	while (1)
+		usleep(1);
+	return (NULL);
 }
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
-	t_data data;
 
-	data_init(argc, argv, &data);
-//	print_data(&data);
-	t_table *table = create_table(data);	
-	data.table = table;
-//	print_table(table, data);
-	bt(data);
-    return 0;
+	pthread_t thread1;
+	pthread_t thread2;
+	pthread_mutex_t *mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);
+	pthread_mutex_init(mutex, NULL);
+	pthread_mutex_unlock(mutex);
+	pthread_create(&thread1, NULL, thread, mutex);
+	usleep(1000000);
+	pthread_create(&thread2, NULL, threads, mutex);
+	while(1)
+		usleep(1);
+	(void ) argc;
+	(void ) argv;
+	(void ) thread1;
+	(void ) thread2;
+
+	return (0);
 }
+*/

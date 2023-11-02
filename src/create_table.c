@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:24:28 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/10/09 11:30:41 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/02 09:38:28 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,40 @@
 
 t_philo	*create_philosopher(t_info *info)
 {
-	t_philo	*philo;
+	t_philo		*philo;
 	static int	id = 0;
 
 	philo = (t_philo *)malloc(sizeof(t_philo));
 	if (!philo)
 		return (NULL);
+	philo->thread = (pthread_t *)malloc(sizeof(pthread_t) * 1);
+	if (!philo->thread)
+	{
+		free(philo);
+		return (NULL);
+	}
 	philo->id = id++;
 	philo->info = info;
-	philo->state = PRE_START;
 	philo->times_eaten = 0;
 	return (philo);
 }
 
 t_fork	*create_fork(void)
 {
-	t_fork *fork;
-	static int id = 0;
+	t_fork		*fork;
+	static int	id = 0;
 
 	fork = (t_fork *)malloc(sizeof(t_fork));
 	if (!fork)
 		return (NULL);
-	fork->id =id++;
-	if (pthread_mutex_init(&(fork->mutex), NULL) != 0)
+	fork->id = id++;
+	fork->mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);
+	if (!fork->mutex)
+	{
+		free(fork);
+		return (NULL);
+	}
+	if (pthread_mutex_init((fork->mutex), NULL) != 0)
 	{
 		free(fork);
 		return (NULL);
@@ -46,7 +57,7 @@ t_fork	*create_fork(void)
 
 t_table	*table_con(t_info *info, int id)
 {
-	t_table *table;
+	t_table	*table;
 
 	table = (t_table *)malloc(sizeof(t_table));
 	if (!table)
@@ -66,9 +77,9 @@ t_table	*table_con(t_info *info, int id)
 
 t_table	*create_table(t_data data)
 {
-	t_table *table;
+	t_table	*table;
 	t_table	*start;
-	int	iter;
+	int		iter;
 
 	iter = 0;
 	table = table_con(data.info, iter % 2);
@@ -80,15 +91,12 @@ t_table	*create_table(t_data data)
 	{
 		table->right = table_con(data.info, iter % 2);
 		if (table->right == NULL)
-		{
-			//free created table and handle exit
-		}
+			exit_handler(&data);
 		table->right->left = table;
 		table = table->right;
 		table->spot = iter;
 	}
 	start->left = table;
 	table->right = start;
-
 	return (start);
 }
