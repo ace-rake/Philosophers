@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 14:34:38 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 13:26:51 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:57:08 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	cycle_patience(int philos, int thread_id, t_info *info, t_data *data)
 	else
 		time_wait = times_eaten % 2;
 	time_wait *= info->time_die / 4;
-	usleep(time_wait);
+//	usleep(time_wait);
 }
 
 int	take_forks(t_table *table, t_data *data, int thread_id)
@@ -48,7 +48,10 @@ int	take_forks(t_table *table, t_data *data, int thread_id)
 	if (thread_id % 2 == 0)
 		pthread_mutex_lock((((t_fork *)(table->left->content))->mutex));
 	else
+	{
+		usleep(1000);
 		pthread_mutex_lock((((t_fork *)(table->right->content))->mutex));
+	}
 	ft_print_status(thread_id, data, FORK);
 	if (thread_id % 2 == 0)
 		pthread_mutex_lock((((t_fork *)(table->right->content))->mutex));

@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:58:43 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 13:52:52 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:54:09 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@
 # include <sys/types.h>
 # include <unistd.h>
 
-//fuck writing struct timeval
+# define PRE_START 0
+# define DEAD 1
+# define EATING 2
+# define SLEEPING 3
+# define THINKING 4
+# define FORK 5
+
 typedef struct s_time
 {
 	long			sec;
@@ -45,13 +51,6 @@ typedef struct s_table
 	int				content_id;
 	void			*content;
 }					t_table;
-
-# define PRE_START 0
-# define DEAD 1
-# define EATING 2
-# define SLEEPING 3
-# define THINKING 4
-# define FORK 5
 
 typedef struct s_philosopher
 {
