@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 10:54:21 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 13:52:38 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:46:55 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,10 @@ int	error_check(int argc, char *argv[])
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-	t_table	*table;
 
 	if (error_check(argc, argv))
 		return (1);
 	data_init(argc, argv, &data);
-	table = create_table(data);
-	data.table = table;
 	philosophers(data);
 	cleanup(&data);
 	return (0);

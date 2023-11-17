@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 09:47:31 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 13:36:54 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:34:16 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,17 @@ int	free_table(t_table *table, int philos)
 
 int	cleanup(t_data *data)
 {
-	free(data->start);
-	free(data->end);
-	free(data->write);
-	free(data->checker);
-	free_table(data->table, data->info->philos);
-	free_info(data->info);
+	if (data->start)
+		free(data->start);
+	if (data->end)
+		free(data->end);
+	if (data->write)
+		free(data->write);
+	if (data->checker)
+		free(data->checker);
+	if (data->table)
+		free_table(data->table, data->info->philos);
+	if (data->info)
+		free_info(data->info);
 	return (0);
 }

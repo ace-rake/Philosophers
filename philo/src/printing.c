@@ -6,7 +6,7 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 13:16:23 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/02 09:49:59 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:14:22 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,4 @@ void	print_table(t_table *table, t_data data)
 		printf("\n");
 		table = table->right;
 	}
-}
-*/
+}*/

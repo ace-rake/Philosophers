@@ -6,18 +6,26 @@
 /*   By: vdenisse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 14:58:43 by vdenisse          #+#    #+#             */
-/*   Updated: 2023/11/13 12:54:09 by vdenisse         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:44:20 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+//pthread stuff
 # include <pthread.h>
+
+// printf
 # include <stdio.h>
+
+// exit
 # include <stdlib.h>
+
+//gettimeofday
 # include <sys/time.h>
-# include <sys/types.h>
+
+//usleep
 # include <unistd.h>
 
 # define PRE_START 0
@@ -66,11 +74,6 @@ typedef struct s_fork
 	int				id;
 	pthread_mutex_t	*mutex;
 }					t_fork;
-
-typedef struct s_lock
-{
-	pthread_mutex_t	mutex;
-}					t_lock;
 
 typedef struct s_data
 {
